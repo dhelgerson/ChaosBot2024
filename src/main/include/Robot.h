@@ -11,12 +11,16 @@
 #include <frc/drive/MecanumDrive.h>
 #include <frc/XboxController.h>
 #include <frc/Timer.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
 #include <cmath>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
 #include <iostream>
 
 #include "ctre/Phoenix.h"
+#include "rev/CANSparkMax.h"
+
+#include <Drivetrain.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -43,15 +47,9 @@ class Robot : public frc::TimedRobot {
   double targetOffsetH;
   double targetSize;
 
-
+  Drivetrain Drivetrain;
   double driveSpeed = .5;
 
-  WPI_TalonSRX frontright = {18};
-  WPI_TalonSRX frontleft = {15};
-  WPI_TalonSRX backright = {13};
-  WPI_TalonSRX backleft = {17};
-
-  frc::MecanumDrive *m_robotDrive = new frc::MecanumDrive(frontleft, backleft, backright, frontright);
   frc::XboxController driver{0};
   frc::XboxController copilot{1};
 

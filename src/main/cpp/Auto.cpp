@@ -22,16 +22,16 @@ void Robot::AutonomousPeriodic() {
     targetSize = table->GetNumber("ta", 0.0);
 
     if (targetSize < 5 && targetSize > 1) {
-        m_robotDrive->DriveCartesian(
+        Drivetrain.Drive(
             (0.5 * targetOffsetH / 27),
             0,
             .15);
     } else {
-        m_robotDrive->DriveCartesian(
+        Drivetrain.Drive(
             (0.5 * targetOffsetH / 27), 0, 0);
     }
   } else if (m_autoSelected == spinnyBoi) {
-    m_robotDrive->DriveCartesian(1, 0, 0);
+    Drivetrain.Drive(1, 0, 0);
   } else {
     // Default Auto goes here
   }
