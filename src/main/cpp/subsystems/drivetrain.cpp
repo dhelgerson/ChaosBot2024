@@ -20,8 +20,8 @@ class Drivetrain {
 
         frc::SwerveDriveKinematics<4> m_kinematics{fLlocation, fRlocation, rLlocation, rRlocation};
 
-        SwerveModule frontLeft{22, 61, 2};
-        SwerveModule frontRight{21, 60, 1};
-        SwerveModule rearLeft{23, 62, 3};
-        SwerveModule rearRight{24, 63, 4};
+        SwerveModule frontLeft{20, 59, 10};
+        SwerveModule frontRight{21, 60, 11};
+        SwerveModule rearLeft{23, 62, 13};
+        SwerveModule rearRight{22, 61, 12};
 };
