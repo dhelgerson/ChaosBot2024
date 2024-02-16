@@ -1,32 +1,19 @@
 #include "SwerveModule.h"
 
-class SwerveModule {
+SwerveModule::SwerveModule(int newDriveId, int newTurnId, int newEncoderId) {
+    driveMotorId = newDriveId;
+    turnMotorId = newTurnId;
+    turnEncoderId = newEncoderId;  
+}
 
-    public:
-        SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId) {
-            int driveMotorId = driveMotorId;
-            int turnMotorId = turnMotorId;
-            int turnEncoderId = turnEncoderId;  
-        }
+double SwerveModule::getAngle() {
+    return turnEncoder.GetAbsolutePosition();
+};
 
-        double getAngle() {
-            return turnEncoder.GetAbsolutePosition();
-        };
-
-        void setState(frc::SwerveModuleState desiredState) {
+void SwerveModule::setState(frc::SwerveModuleState desiredState) {
             auto optimizedState = frc::SwerveModuleState::Optimize(desiredState,
                 units::radian_t(turnEncoder.GetAbsolutePosition()));
 
-            driveMotor.Set(double(optimizedState.speed) / 4.877);
+            driveMotor.Set(double(optimizedState.speed / 4.877));
             turnMotor.Set(double(optimizedState.angle.Radians() / (2 * M_PI)));
         };
-
-    private:
-        int driveMotorId;
-        int turnMotorId;
-        int turnEncoderId;
-
-        WPI_TalonFX driveMotor{driveMotorId};
-        rev::CANSparkMax turnMotor{turnMotorId, rev::CANSparkMax::MotorType::kBrushless};
-        WPI_CANCoder turnEncoder{turnEncoderId};
-};

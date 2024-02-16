@@ -10,14 +10,14 @@ void Robot::TeleopPeriodic() {
     if (driver.GetAButton() == true) {
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", 0);
-        Drivetrain.Drive(
+        m_Drivetrain.Drive(
             (0.5 * targetOffsetH / 27),
             (driveSpeed * deadband(driver.GetLeftX())),
             (-driveSpeed * deadband(driver.GetLeftY())));
     } else {
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", 1);
-        Drivetrain.Drive(
+        m_Drivetrain.Drive(
             (driveSpeed * deadband(driver.GetRightX())), 
             (driveSpeed * deadband(driver.GetLeftX())),
             (-driveSpeed * deadband(driver.GetLeftY())));

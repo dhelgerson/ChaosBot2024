@@ -1,4 +1,9 @@
-#include "Robot.h"
+#pragma once
+
+#include <frc/kinematics/SwerveDriveKinematics.h>
+
+#include "ctre/Phoenix.h"
+#include "rev/CANSparkMax.h"
 
 class SwerveModule {
     public:

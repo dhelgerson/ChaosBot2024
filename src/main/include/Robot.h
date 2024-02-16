@@ -5,22 +5,18 @@
 #pragma once
 
 #include <string>
-
+ 
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/drive/MecanumDrive.h>
 #include <frc/XboxController.h>
 #include <frc/Timer.h>
-#include <frc/kinematics/SwerveDriveKinematics.h>
 #include <cmath>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
 #include <iostream>
 
-#include "ctre/Phoenix.h"
-#include "rev/CANSparkMax.h"
-
-#include <Drivetrain.h>
+#include "Drivetrain.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -47,7 +43,7 @@ class Robot : public frc::TimedRobot {
   double targetOffsetH;
   double targetSize;
 
-  Drivetrain Drivetrain;
+  Drivetrain m_Drivetrain;
   double driveSpeed = .5;
 
   frc::XboxController driver{0};

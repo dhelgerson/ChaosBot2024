@@ -11,12 +11,12 @@ void Robot::TestPeriodic() {
     targetSize = table->GetNumber("ta", 0.0);
 
     if (targetSize < 5 && targetSize > 1) {
-        Drivetrain.Drive(
+        m_Drivetrain.Drive(
             (0.5 * targetOffsetH / 27),
             0,
             .15);
     } else {
-        Drivetrain.Drive(
+        m_Drivetrain.Drive(
             (0.5 * targetOffsetH / 27), 0, 0);
     }
 }
