@@ -12,11 +12,14 @@ void Robot::TestPeriodic() {
 
     if (targetSize < 5 && targetSize > 1) {
         m_Drivetrain.Drive(
-            (0.5 * targetOffsetH / 27),
-            0,
-            .15);
+            units::meters_per_second_t{0.5 * targetOffsetH / 27},
+            units::meters_per_second_t{0.0},
+            units::radians_per_second_t{.15}, false, true);
     } else {
         m_Drivetrain.Drive(
-            (0.5 * targetOffsetH / 27), 0, 0);
+            units::meters_per_second_t{0.5 * targetOffsetH / 27}, 
+            units::meters_per_second_t{0.0}, 
+            units::radians_per_second_t{0.0}, 
+            false, true);
     }
 }

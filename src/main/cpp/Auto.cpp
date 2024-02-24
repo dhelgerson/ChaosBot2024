@@ -15,23 +15,17 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
   if (m_autoSelected == followBot) {
-    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
-    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", 0);
-    std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-    targetOffsetH = table->GetNumber("tx", 0.0);
-    targetSize = table->GetNumber("ta", 0.0);
-
-    if (targetSize < 5 && targetSize > 1) {
-        m_Drivetrain.Drive(
-            (0.5 * targetOffsetH / 27),
-            0,
-            .15);
-    } else {
-        m_Drivetrain.Drive(
-            (0.5 * targetOffsetH / 27), 0, 0);
-    }
+    m_Drivetrain.Drive(
+      units::meters_per_second_t{1.0},
+      units::meters_per_second_t{0.0}, 
+      units::radians_per_second_t{0.0}, 
+      false, true);
   } else if (m_autoSelected == spinnyBoi) {
-    m_Drivetrain.Drive(1, 0, 0);
+    m_Drivetrain.Drive(
+      units::meters_per_second_t{0.0}, 
+      units::meters_per_second_t{0.0}, 
+      units::radians_per_second_t{1.0}, 
+      false, true);
   } else {
     // Default Auto goes here
   }

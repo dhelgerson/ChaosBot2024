@@ -16,7 +16,8 @@
 #include <networktables/NetworkTableInstance.h>
 #include <iostream>
 
-#include "Drivetrain.h"
+#include "Subsystems/Drivetrain.h"
+#include "Subsystems/AmpDump.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -44,6 +45,8 @@ class Robot : public frc::TimedRobot {
   double targetSize;
 
   Drivetrain m_Drivetrain;
+  AmpDump m_AmpDump;
+
   double driveSpeed = .5;
 
   frc::XboxController driver{0};
