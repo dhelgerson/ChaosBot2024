@@ -13,7 +13,7 @@
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
 
-#include "Constants.h"
+#include "Constants/SwerveConstants.h"
 #include "SwerveModule.h"
 
 class Drivetrain : public frc2::SubsystemBase {

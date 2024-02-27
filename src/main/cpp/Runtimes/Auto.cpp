@@ -1,6 +1,8 @@
 #include "Robot.h"
 
 void Robot::AutonomousInit() {
+  m_AmpDump.Init();
+  
   m_autoSelected = m_chooser.GetSelected();
   // m_autoSelected = SmartDashboard::GetString("Auto Selector",
   //     kAutoNameDefault);

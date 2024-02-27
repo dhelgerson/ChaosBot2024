@@ -13,6 +13,8 @@ void Robot::RobotInit() {
   m_chooser.AddOption(followBot, followBot);
   m_chooser.AddOption(spinnyBoi, spinnyBoi);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+  m_AmpDump.Init();
 }
 void Robot::RobotPeriodic() {}
 

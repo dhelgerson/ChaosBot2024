@@ -1,6 +1,7 @@
 #include "Robot.h"
 
 void Robot::TestInit() {
+    m_AmpDump.Init();
 }
 
 void Robot::TestPeriodic() {

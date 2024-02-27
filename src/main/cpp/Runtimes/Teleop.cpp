@@ -1,6 +1,8 @@
 #include "Robot.h"
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+    m_AmpDump.Init();
+}
 
 void Robot::TeleopPeriodic() {
 
@@ -31,10 +33,7 @@ void Robot::TeleopPeriodic() {
 
     // AMP DUMP CONTROLS
     if (copilot.GetAButtonPressed()) {
-        m_AmpDump.Dump();
-    }
-    if (copilot.GetAButtonReleased()) {
-        m_AmpDump.Reset();
+        m_AmpDump.Toggle();
     }
 
 
