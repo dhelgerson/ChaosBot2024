@@ -3,7 +3,7 @@
 
 using namespace PneumaticsConstants;
 
-AmpDump::AmpDump() : m_solenoid{frc::PneumaticsModuleType::CTREPCM, kDumpForward, kDumpReverse},
+AmpDump::AmpDump() : m_solenoid{kPCMCanId, frc::PneumaticsModuleType::CTREPCM, kDumpForward, kDumpReverse},
     m_compressor{kPCMCanId, frc::PneumaticsModuleType::CTREPCM} {}
 
 void AmpDump::Init() {
