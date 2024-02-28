@@ -32,8 +32,15 @@ void Robot::TeleopPeriodic() {
     }
 
     // AMP DUMP CONTROLS
-    if (copilot.GetAButtonPressed()) {
+    if (copilot.GetXButtonPressed()) {
         m_AmpDump.Toggle();
+    }
+
+    // INTAKE CONTROLS
+    if (copilot.GetAButton()) {
+        m_Intake.Set(1);
+    } else {
+        m_Intake.Set(0);
     }
 
 
