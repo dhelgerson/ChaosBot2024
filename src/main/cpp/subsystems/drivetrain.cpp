@@ -8,6 +8,7 @@
 #include <units/angle.h>
 #include <units/angular_velocity.h>
 #include <units/velocity.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "Constants/SwerveConstants.h"
 #include "utils/SwerveUtils.h"
@@ -23,17 +24,20 @@ Drivetrain::Drivetrain()
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset},
+      m_gyro{frc::I2C::Port::kMXP},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t{
-                     m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}),
+                     m_gyro.GetYaw()}),
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}} {}
+                 frc::Pose2d{}} {
+  frc::SmartDashboard::PutData("Field", &m_field);
+  }
 
 void Drivetrain::Periodic() {
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(frc::Rotation2d(units::radian_t{
-                        m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}),
+                        m_gyro.GetYaw()}),
                     {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
                      m_frontRight.GetPosition(), m_rearRight.GetPosition()});
 }
@@ -113,7 +117,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 frc::Rotation2d(units::radian_t{
-                    m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
+                    m_gyro.GetYaw()}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
   kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
@@ -154,16 +158,15 @@ void Drivetrain::ResetEncoders() {
   m_rearRight.ResetEncoders();
 }
 
-units::degree_t Drivetrain::GetHeading() const {
-  return frc::Rotation2d(
-             units::radian_t{m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)})
-      .Degrees();
+units::degree_t Drivetrain::GetHeading() {
+  return frc::Rotation2d(units::radian_t{
+                     m_gyro.GetYaw()}).Degrees();
 }
 
 void Drivetrain::ZeroHeading() { m_gyro.Reset(); }
 
 double Drivetrain::GetTurnRate() {
-  return -m_gyro.GetRate(frc::ADIS16470_IMU::IMUAxis::kZ).value();
+  return -m_gyro.GetRate();
 }
 
 frc::Pose2d Drivetrain::GetPose() { return m_odometry.GetPose(); }

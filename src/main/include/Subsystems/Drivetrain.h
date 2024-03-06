@@ -4,19 +4,22 @@
 
 #pragma once
 
-#include <frc/ADIS16470_IMU.h>
 #include <frc/filter/SlewRateLimiter.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/smartdashboard/Field2d.h>
+#include <networktables/NetworkTable.h>
 #include <frc2/command/SubsystemBase.h>
+#include <AHRS.h>
 
 #include "Constants/SwerveConstants.h"
 #include "SwerveModule.h"
 
 class Drivetrain : public frc2::SubsystemBase {
+
  public:
   Drivetrain();
 
@@ -63,7 +66,7 @@ class Drivetrain : public frc2::SubsystemBase {
    *
    * @return the robot's heading in degrees, from 180 to 180
    */
-  units::degree_t GetHeading() const;
+  units::degree_t GetHeading();
 
   /**
    * Zeroes the heading of the robot.
@@ -111,7 +114,7 @@ class Drivetrain : public frc2::SubsystemBase {
   MAXSwerveModule m_rearRight;
 
   // The gyro sensor
-  frc::ADIS16470_IMU m_gyro;
+  AHRS m_gyro;
 
   // Slew rate filter variables for controlling lateral acceleration
   double m_currentRotation = 0.0;
@@ -127,4 +130,5 @@ class Drivetrain : public frc2::SubsystemBase {
   // Odometry class for tracking robot pose
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
+  frc::Field2d m_field;
 };

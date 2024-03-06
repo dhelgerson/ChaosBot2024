@@ -43,5 +43,14 @@ void Robot::TeleopPeriodic() {
         m_Intake.Set(0);
     }
 
+    // SHOOTERE CONTROLS
+    if (copilot.GetBButton()) {
+        m_Shooter.load();
+    } else if (copilot.GetYButton()) {
+        m_Shooter.shoot();
+    } else {
+        m_Shooter.zero();
+    }
+
 
 }

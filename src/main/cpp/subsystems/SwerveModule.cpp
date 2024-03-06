@@ -98,7 +98,7 @@ frc::SwerveModulePosition MAXSwerveModule::GetPosition() const {
 }
 
 void MAXSwerveModule::SetDesiredState(
-    const frc::SwerveModuleState& desiredState) {
+     const frc::SwerveModuleState& desiredState) {
   // Apply chassis angular offset to the desired state.
   frc::SwerveModuleState correctedDesiredState{};
   correctedDesiredState.speed = desiredState.speed;
@@ -107,9 +107,10 @@ void MAXSwerveModule::SetDesiredState(
       frc::Rotation2d(units::radian_t{m_chassisAngularOffset});
 
   // Optimize the reference state to avoid spinning further than 90 degrees.
-  frc::SwerveModuleState optimizedDesiredState{frc::SwerveModuleState::Optimize(
-      correctedDesiredState, frc::Rotation2d(units::radian_t{
-                                 m_turningAbsoluteEncoder.GetPosition()}))};
+//   frc::SwerveModuleState optimizedDesiredState{frc::SwerveModuleState::Optimize(
+//       correctedDesiredState, frc::Rotation2d(units::radian_t{
+//                                  m_turningAbsoluteEncoder.GetPosition()}))};
+frc::SwerveModuleState optimizedDesiredState = correctedDesiredState;
 
   // Command driving and turning SPARKS MAX towards their respective setpoints.
   m_drivingPIDController.SetReference((double)optimizedDesiredState.speed,

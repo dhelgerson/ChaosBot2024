@@ -41,21 +41,21 @@ constexpr units::meter_t kWheelBase =
     0.6731_m;  // Distance between centers of front and back wheels on robot
 
 // Angular offsets of the modules relative to the chassis in radians
-constexpr double kFrontLeftChassisAngularOffset = -std::numbers::pi / 2;
+constexpr double kFrontLeftChassisAngularOffset = -std::numbers::pi;
 constexpr double kFrontRightChassisAngularOffset = 0;
 constexpr double kRearLeftChassisAngularOffset = std::numbers::pi;
-constexpr double kRearRightChassisAngularOffset = std::numbers::pi / 2;
+constexpr double kRearRightChassisAngularOffset = 0;
 
 // SPARK MAX CAN IDs
-constexpr int kFrontLeftDrivingCanId = 11;
-constexpr int kRearLeftDrivingCanId = 13;
-constexpr int kFrontRightDrivingCanId = 15;
-constexpr int kRearRightDrivingCanId = 17;
+constexpr int kFrontLeftDrivingCanId = 56;
+constexpr int kRearLeftDrivingCanId = 52;
+constexpr int kFrontRightDrivingCanId = 60;
+constexpr int kRearRightDrivingCanId = 58;
 
-constexpr int kFrontLeftTurningCanId = 10;
-constexpr int kRearLeftTurningCanId = 12;
-constexpr int kFrontRightTurningCanId = 14;
-constexpr int kRearRightTurningCanId = 16;
+constexpr int kFrontLeftTurningCanId = 59;
+constexpr int kRearLeftTurningCanId = 55;
+constexpr int kFrontRightTurningCanId = 61;
+constexpr int kRearRightTurningCanId = 57;
 }  // namespace DriveConstants
 
 namespace ModuleConstants {
@@ -105,7 +105,7 @@ constexpr double kDrivingFF = (1 / kDriveWheelFreeSpeedRps);
 constexpr double kDrivingMinOutput = -1;
 constexpr double kDrivingMaxOutput = 1;
 
-constexpr double kTurningP = 1;
+constexpr double kTurningP = .75;
 constexpr double kTurningI = 0;
 constexpr double kTurningD = 0;
 constexpr double kTurningFF = 0;
@@ -117,7 +117,7 @@ constexpr rev::CANSparkMax::IdleMode kDrivingMotorIdleMode =
 constexpr rev::CANSparkMax::IdleMode kTurningMotorIdleMode =
     rev::CANSparkMax::IdleMode::kBrake;
 
-constexpr units::ampere_t kDrivingMotorCurrentLimit = 50_A;
+constexpr units::ampere_t kDrivingMotorCurrentLimit = 40_A;
 constexpr units::ampere_t kTurningMotorCurrentLimit = 20_A;
 }  // namespace ModuleConstants
 
