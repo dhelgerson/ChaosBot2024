@@ -13,3 +13,7 @@ namespace ShooterConstants {
     constexpr int kFollowerOneCANId = 23;
     constexpr int kFollowerTwoCANId = 20;
 }
+
+namespace ClimberConstants {
+    constexpr int kClimberCANId = 54;
+}

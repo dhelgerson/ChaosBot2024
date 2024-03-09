@@ -11,24 +11,34 @@ void Robot::TeleopPeriodic() {
 
     // AIM AT TARGET
     if (driver.GetAButton() == true) {
-        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
-        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", 0);
         m_Drivetrain.Drive(
             -units::meters_per_second_t{deadband(driver.GetLeftY())},
             -units::meters_per_second_t{deadband(driver.GetLeftX())},
             units::radians_per_second_t{0.5 * targetOffsetH / 27},
             false, true);
     } 
+
+    // DRIVE FIELD-ORIENTED
+    else if (driver.GetLeftBumper()) {
+        m_Drivetrain.Drive(
+            -units::meters_per_second_t{deadband(driver.GetLeftY())},
+            -units::meters_per_second_t{deadband(driver.GetLeftX())},
+            -units::radians_per_second_t{deadband(driver.GetRightX())},
+            true, true);
+    }
     
     // DRIVE NORMALLY
     else {
-        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
-        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", 1);
         m_Drivetrain.Drive(
             -units::meters_per_second_t{deadband(driver.GetLeftY())},
             -units::meters_per_second_t{deadband(driver.GetLeftX())},
             -units::radians_per_second_t{deadband(driver.GetRightX())},
             false, true);
+    }
+
+    // RESET NAV-X GYRO
+    if (driver.GetYButtonPressed()) {
+        m_Drivetrain.ZeroHeading();
     }
 
     // AMP DUMP CONTROLS
@@ -43,7 +53,7 @@ void Robot::TeleopPeriodic() {
         m_Intake.Set(0);
     }
 
-    // SHOOTERE CONTROLS
+    // SHOOTER CONTROLS
     if (copilot.GetBButton()) {
         m_Shooter.load();
     } else if (copilot.GetYButton()) {
@@ -52,5 +62,12 @@ void Robot::TeleopPeriodic() {
         m_Shooter.zero();
     }
 
+    // CLIMBER CONTROLS
+    m_Climber.setClimber(
+        deadband(
+            copilot.GetRightTriggerAxis()
+             - copilot.GetLeftTriggerAxis()
+        )
+    ); 
 
 }

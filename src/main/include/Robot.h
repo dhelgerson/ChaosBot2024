@@ -20,6 +20,7 @@
 #include "Subsystems/AmpDump.h"
 #include "Subsystems/Intake.h"
 #include "Subsystems/Shooter.h"
+#include "Subsystems/Climber.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -50,6 +51,8 @@ class Robot : public frc::TimedRobot {
   AmpDump m_AmpDump;
   Intake m_Intake;
   Shooter m_Shooter;
+  Climber m_Climber;
+  
 
   double driveSpeed = .5;
 

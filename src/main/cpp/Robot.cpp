@@ -14,6 +14,8 @@ void Robot::RobotInit() {
   m_chooser.AddOption(spinnyBoi, spinnyBoi);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+  nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
+
   m_AmpDump.Init();
 }
 void Robot::RobotPeriodic() {}

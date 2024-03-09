@@ -26,7 +26,7 @@ Drivetrain::Drivetrain()
                   kRearRightChassisAngularOffset, "BR"},
       m_gyro{frc::I2C::Port::kMXP},
       m_odometry{kDriveKinematics,
-                 frc::Rotation2d(units::radian_t{
+                 frc::Rotation2d(units::degree_t{
                      m_gyro.GetYaw()}),
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
@@ -36,7 +36,7 @@ Drivetrain::Drivetrain()
 
 void Drivetrain::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  m_odometry.Update(frc::Rotation2d(units::radian_t{
+  m_odometry.Update(frc::Rotation2d(units::degree_t{
                         m_gyro.GetYaw()}),
                     {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
                      m_frontRight.GetPosition(), m_rearRight.GetPosition()});
@@ -65,7 +65,7 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
       fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                frc::Rotation2d(units::radian_t{
+                frc::Rotation2d(units::degree_t{
                     m_gyro.GetYaw()}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
@@ -77,6 +77,8 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   m_frontRight.SetDesiredState(fr);
   m_rearLeft.SetDesiredState(bl);
   m_rearRight.SetDesiredState(br);
+
+  frc::SmartDashboard::PutNumber("NavX_gyro", m_gyro.GetYaw());
 }
 
 void Drivetrain::SetX() {
@@ -112,7 +114,7 @@ units::degree_t Drivetrain::GetHeading() {
                      m_gyro.GetYaw()}).Degrees();
 }
 
-void Drivetrain::ZeroHeading() { m_gyro.Reset(); }
+void Drivetrain::ZeroHeading() { m_gyro.ZeroYaw(); }
 
 double Drivetrain::GetTurnRate() {
   return -m_gyro.GetRate();
