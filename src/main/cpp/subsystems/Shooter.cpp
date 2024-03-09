@@ -20,7 +20,7 @@ void Shooter::load() {
 void Shooter::shoot() {
     m_shooterOne.Set(-1);
     m_shooterTwo.Set(-1);
-    m_shooterThree.Set(-1);
+    m_shooterThree.Set(-.2);
 }
 
 void Shooter::zero() {

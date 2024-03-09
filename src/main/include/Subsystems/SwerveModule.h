@@ -21,7 +21,7 @@ class MAXSwerveModule {
    * Encoder.
    */
   MAXSwerveModule(int driveCANId, int turningCANId,
-                  double chassisAngularOffset);
+                  double chassisAngularOffset, std::string newLabel);
 
   /**
    * Returns the current state of the module.
@@ -52,6 +52,8 @@ class MAXSwerveModule {
  private:
   rev::CANSparkMax m_drivingSparkMax;
   rev::CANSparkMax m_turningSparkMax;
+
+  std::string moduleLabel;
 
   rev::SparkRelativeEncoder m_drivingEncoder =
       m_drivingSparkMax.GetEncoder(rev::SparkRelativeEncoder::Type::kHallSensor);

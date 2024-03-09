@@ -5,7 +5,7 @@
 #include "Subsystems/SwerveModule.h"
 
 #include <frc/geometry/Rotation2d.h>
-
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <numbers>
 
 #include "Constants/SwerveConstants.h"
@@ -13,9 +13,12 @@
 using namespace ModuleConstants;
 
 MAXSwerveModule::MAXSwerveModule(const int drivingCANId, const int turningCANId,
-                                 const double chassisAngularOffset)
+                                 const double chassisAngularOffset, const std::string newLabel)
     : m_drivingSparkMax(drivingCANId, rev::CANSparkMax::MotorType::kBrushless),
       m_turningSparkMax(turningCANId, rev::CANSparkMax::MotorType::kBrushless) {
+
+  moduleLabel = newLabel;
+
   // Factory reset, so we get the SPARKS MAX to a known state before configuring
   // them. This is useful in case a SPARK MAX is swapped out.
   m_drivingSparkMax.RestoreFactoryDefaults();
@@ -105,12 +108,17 @@ void MAXSwerveModule::SetDesiredState(
   correctedDesiredState.angle =
       desiredState.angle +
       frc::Rotation2d(units::radian_t{m_chassisAngularOffset});
+// frc::SwerveModuleState correctedDesiredState = desiredState;
 
   // Optimize the reference state to avoid spinning further than 90 degrees.
-//   frc::SwerveModuleState optimizedDesiredState{frc::SwerveModuleState::Optimize(
-//       correctedDesiredState, frc::Rotation2d(units::radian_t{
-//                                  m_turningAbsoluteEncoder.GetPosition()}))};
-frc::SwerveModuleState optimizedDesiredState = correctedDesiredState;
+  frc::SwerveModuleState optimizedDesiredState{frc::SwerveModuleState::Optimize(
+      correctedDesiredState, frc::Rotation2d(units::radian_t{
+                                 m_turningAbsoluteEncoder.GetPosition()}))};
+// frc::SwerveModuleState optimizedDesiredState = correctedDesiredState;
+
+  frc::SmartDashboard::PutNumber(moduleLabel + "_desiredAngle", correctedDesiredState.angle.Radians().value() * (180 / M_PI));
+  frc::SmartDashboard::PutNumber(moduleLabel + "_currentAngle", m_turningAbsoluteEncoder.GetPosition() * (180 / M_PI));
+  frc::SmartDashboard::PutNumber(moduleLabel + "_optimizedAngle", optimizedDesiredState.angle.Radians().value() * (180 / M_PI));
 
   // Command driving and turning SPARKS MAX towards their respective setpoints.
   m_drivingPIDController.SetReference((double)optimizedDesiredState.speed,

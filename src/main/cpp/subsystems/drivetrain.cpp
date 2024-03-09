@@ -17,13 +17,13 @@ using namespace DriveConstants;
 
 Drivetrain::Drivetrain()
     : m_frontLeft{kFrontLeftDrivingCanId, kFrontLeftTurningCanId,
-                  kFrontLeftChassisAngularOffset},
+                  kFrontLeftChassisAngularOffset, "FL"},
       m_rearLeft{kRearLeftDrivingCanId, kRearLeftTurningCanId,
-                 kRearLeftChassisAngularOffset},
+                 kRearLeftChassisAngularOffset, "BL"},
       m_frontRight{kFrontRightDrivingCanId, kFrontRightTurningCanId,
-                   kFrontRightChassisAngularOffset},
+                   kFrontRightChassisAngularOffset, "FR"},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
-                  kRearRightChassisAngularOffset},
+                  kRearRightChassisAngularOffset, "BR"},
       m_gyro{frc::I2C::Port::kMXP},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t{
@@ -49,60 +49,9 @@ void Drivetrain::Drive(units::meters_per_second_t xSpeed,
   double xSpeedCommanded;
   double ySpeedCommanded;
 
-  if (rateLimit) {
-    // Convert XY to polar for rate limiting
-    double inputTranslationDir = atan2(ySpeed.value(), xSpeed.value());
-    double inputTranslationMag =
-        sqrt(pow(xSpeed.value(), 2) + pow(ySpeed.value(), 2));
-
-    // Calculate the direction slew rate based on an estimate of the lateral
-    // acceleration
-    double directionSlewRate;
-    if (m_currentTranslationMag != 0.0) {
-      directionSlewRate =
-          abs(DriveConstants::kDirectionSlewRate / m_currentTranslationMag);
-    } else {
-      directionSlewRate = 500.0;  // some high number that means the slew rate
-                                  // is effectively instantaneous
-    }
-
-    double currentTime = wpi::Now() * 1e-6;
-    double elapsedTime = currentTime - m_prevTime;
-    double angleDif = SwerveUtils::AngleDifference(inputTranslationDir,
-                                                   m_currentTranslationDir);
-    if (angleDif < 0.45 * std::numbers::pi) {
-      m_currentTranslationDir = SwerveUtils::StepTowardsCircular(
-          m_currentTranslationDir, inputTranslationDir,
-          directionSlewRate * elapsedTime);
-      m_currentTranslationMag = m_magLimiter.Calculate(inputTranslationMag);
-    } else if (angleDif > 0.85 * std::numbers::pi) {
-      if (m_currentTranslationMag >
-          1e-4) {  // some small number to avoid floating-point errors with
-                   // equality checking
-        // keep currentTranslationDir unchanged
-        m_currentTranslationMag = m_magLimiter.Calculate(0.0);
-      } else {
-        m_currentTranslationDir =
-            SwerveUtils::WrapAngle(m_currentTranslationDir + std::numbers::pi);
-        m_currentTranslationMag = m_magLimiter.Calculate(inputTranslationMag);
-      }
-    } else {
-      m_currentTranslationDir = SwerveUtils::StepTowardsCircular(
-          m_currentTranslationDir, inputTranslationDir,
-          directionSlewRate * elapsedTime);
-      m_currentTranslationMag = m_magLimiter.Calculate(0.0);
-    }
-    m_prevTime = currentTime;
-
-    xSpeedCommanded = m_currentTranslationMag * cos(m_currentTranslationDir);
-    ySpeedCommanded = m_currentTranslationMag * sin(m_currentTranslationDir);
-    m_currentRotation = m_rotLimiter.Calculate(rot.value());
-
-  } else {
-    xSpeedCommanded = xSpeed.value();
-    ySpeedCommanded = ySpeed.value();
-    m_currentRotation = rot.value();
-  }
+  xSpeedCommanded = -xSpeed.value();
+  ySpeedCommanded = ySpeed.value();
+  m_currentRotation = rot.value();
 
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =

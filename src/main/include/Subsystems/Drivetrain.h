@@ -96,13 +96,13 @@ class Drivetrain : public frc2::SubsystemBase {
 
   frc::SwerveDriveKinematics<4> kDriveKinematics{
       frc::Translation2d{DriveConstants::kWheelBase / 2,
-                         DriveConstants::kTrackWidth / 2},
+                         -DriveConstants::kTrackWidth / 2},
       frc::Translation2d{DriveConstants::kWheelBase / 2,
+                         DriveConstants::kTrackWidth / 2},
+      frc::Translation2d{-DriveConstants::kWheelBase / 2,
                          -DriveConstants::kTrackWidth / 2},
       frc::Translation2d{-DriveConstants::kWheelBase / 2,
-                         DriveConstants::kTrackWidth / 2},
-      frc::Translation2d{-DriveConstants::kWheelBase / 2,
-                         -DriveConstants::kTrackWidth / 2}};
+                         DriveConstants::kTrackWidth / 2}};
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

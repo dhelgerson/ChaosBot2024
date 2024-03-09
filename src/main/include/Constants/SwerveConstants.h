@@ -41,9 +41,9 @@ constexpr units::meter_t kWheelBase =
     0.6731_m;  // Distance between centers of front and back wheels on robot
 
 // Angular offsets of the modules relative to the chassis in radians
-constexpr double kFrontLeftChassisAngularOffset = -std::numbers::pi;
+constexpr double kFrontLeftChassisAngularOffset = std::numbers::pi;
 constexpr double kFrontRightChassisAngularOffset = 0;
-constexpr double kRearLeftChassisAngularOffset = std::numbers::pi;
+constexpr double kRearLeftChassisAngularOffset = -std::numbers::pi;
 constexpr double kRearRightChassisAngularOffset = 0;
 
 // SPARK MAX CAN IDs
@@ -61,7 +61,7 @@ constexpr int kRearRightTurningCanId = 57;
 namespace ModuleConstants {
 // Invert the turning encoder, since the output shaft rotates in the opposite
 // direction of the steering motor in the MAXSwerve Module.
-constexpr bool kTurningEncoderInverted = true;
+constexpr bool kTurningEncoderInverted = false;
 
 // The MAXSwerve module can be configured with one of three pinion gears: 12T,
 // 13T, or 14T. This changes the drive speed of the module (a pinion gear with
@@ -98,14 +98,14 @@ constexpr units::radian_t kTurningEncoderPositionPIDMinInput = 0_rad;
 constexpr units::radian_t kTurningEncoderPositionPIDMaxInput =
     units::radian_t{kTurningEncoderPositionFactor};
 
-constexpr double kDrivingP = 0.04;
+constexpr double kDrivingP = 0.000004;
 constexpr double kDrivingI = 0;
 constexpr double kDrivingD = 0;
 constexpr double kDrivingFF = (1 / kDriveWheelFreeSpeedRps);
 constexpr double kDrivingMinOutput = -1;
 constexpr double kDrivingMaxOutput = 1;
 
-constexpr double kTurningP = .75;
+constexpr double kTurningP = .35;
 constexpr double kTurningI = 0;
 constexpr double kTurningD = 0;
 constexpr double kTurningFF = 0;
