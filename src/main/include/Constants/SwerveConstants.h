@@ -36,9 +36,9 @@ constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)
 
 // Chassis configuration
 constexpr units::meter_t kTrackWidth =
-    0.6731_m;  // Distance between centers of right and left wheels on robot
+    0.6223_m;  // Distance between centers of right and left wheels on robot
 constexpr units::meter_t kWheelBase =
-    0.6731_m;  // Distance between centers of front and back wheels on robot
+    0.61595_m;  // Distance between centers of front and back wheels on robot
 
 // Angular offsets of the modules relative to the chassis in radians
 constexpr double kFrontLeftChassisAngularOffset = std::numbers::pi;
@@ -71,7 +71,7 @@ constexpr int kDrivingMotorPinionTeeth = 14;
 // Calculations required for driving motor conversion factors and feed forward
 constexpr double kDrivingMotorFreeSpeedRps =
     5676.0 / 60;  // NEO free speed is 5676 RPM
-constexpr units::meter_t kWheelDiameter = 0.0762_m;
+constexpr units::meter_t kWheelDiameter = 0.1016_m;
 constexpr units::meter_t kWheelCircumference =
     kWheelDiameter * std::numbers::pi;
 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
