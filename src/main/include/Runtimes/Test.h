@@ -4,5 +4,6 @@
 
 double leftX,leftY,rightX;
 bool aBtn;
+bool coA,coX,coY,coB;
 
 std::ofstream f;
