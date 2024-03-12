@@ -38,10 +38,6 @@ class Robot : public frc::TimedRobot {
   void SimulationPeriodic() override;
 
  private:
-  // variables for autonomous recording
-  double leftX,leftY,rightX;
-  bool aBtn;
-
 
   frc::SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
