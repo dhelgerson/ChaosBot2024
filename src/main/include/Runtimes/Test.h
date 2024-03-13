@@ -2,7 +2,7 @@
 // #include <iostream>
 #include <fstream>
 
-double leftX,leftY,rightX;
+float leftX,leftY,rightX;
 bool aBtn;
 bool coA,coX,coY,coB;
 
