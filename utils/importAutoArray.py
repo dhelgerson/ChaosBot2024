@@ -10,7 +10,7 @@ with open(filename) as csvfile:
         data.append(row)
 
 for i in range(len(data[0])):
-    line = data[0][i] + '[] = {'
+    line = data[0][i] + 'array[] = {'
 
     for j in range(1, len(data)-1):
         line = line + data[j][i] + ', '

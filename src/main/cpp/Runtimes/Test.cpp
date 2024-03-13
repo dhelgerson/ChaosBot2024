@@ -10,7 +10,7 @@ void Robot::TestInit() {
     
     // open file for writing
     f.open("/u/autorec.csv");
-    f << "double leftX,double leftY,double rightX,bool aBtn,bool coA,bool coB,bool coX,bool coY" << std::endl;
+    f << "float leftX,float leftY,float rightX,bool aBtn,bool coA,bool coB,bool coX,bool coY" << std::endl;
 }
 
 void Robot::TestPeriodic() {
