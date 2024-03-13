@@ -16,22 +16,22 @@ void Robot::AutonomousInit() {
   //     kAutoNameDefault);
   fmt::print("Auto selected: {}\n", m_autoSelected);
 
-  std::vector<float> input = {3,123,123,123,123,0};
-  StandStill.leftY = input;
+  // std::vector<float> input = {3,123,123,123,123,0};
+  // StandStill.leftYarray = input;
 }
 
 void Robot::AutonomousPeriodic() {
 
-  if (i < (sizeof(leftX) / sizeof(leftX[0]))) {
+  if (i < (sizeof(leftXarray) / sizeof(leftXarray[0]))) {
 
     std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
     targetOffsetH = table->GetNumber("tx", 0.0);
 
     // AIM AT TARGET
-    if (aBtn[i] == true) {
+    if (aBtnarray[i] == true) {
         m_Drivetrain.Drive(
-            -units::meters_per_second_t{deadband(leftY[i])},
-            -units::meters_per_second_t{deadband(leftX[i])},
+            -units::meters_per_second_t{deadband(leftYarray[i])},
+            -units::meters_per_second_t{deadband(leftXarray[i])},
             units::radians_per_second_t{0.5 * targetOffsetH / 27},
             false, true);
     } 
@@ -39,28 +39,28 @@ void Robot::AutonomousPeriodic() {
     // DRIVE NORMALLY
     else {
         m_Drivetrain.Drive(
-            -units::meters_per_second_t{deadband(leftY[i])},
-            -units::meters_per_second_t{deadband(leftX[i])},
-            -units::radians_per_second_t{deadband(rightX[i])},
+            -units::meters_per_second_t{deadband(leftYarray[i])},
+            -units::meters_per_second_t{deadband(leftXarray[i])},
+            -units::radians_per_second_t{deadband(rightXarray[i])},
             false, true);
     }
 
     // AMP DUMP CONTROLS
-    if (coX[i]) {
+    if (coXarray[i]) {
         m_AmpDump.Toggle();
     }
 
     // INTAKE CONTROLS
-    if (coA[i]) {
+    if (coAarray[i]) {
         m_Intake.Set(1);
     } else {
         m_Intake.Set(0);
     }
 
     // SHOOTER CONTROLS
-    if (coB[i]) {
+    if (coBarray[i]) {
         m_Shooter.load();
-    } else if (coY[i]) {
+    } else if (coYarray[i]) {
         m_Shooter.shoot();
     } else {
         m_Shooter.zero();
@@ -71,7 +71,7 @@ void Robot::AutonomousPeriodic() {
     m_Drivetrain.Drive(
       units::meters_per_second_t{0},
       units::meters_per_second_t{0}, 
-      units::meters_per_second_t{0},
+      units::radians_per_second_t{0},
       false, true
     );
     wpi::outs() << "0,0,0\n";
